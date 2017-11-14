@@ -3,9 +3,12 @@ from hringbraut import Hringbraut
 
 if __name__ == '__main__':
     hr = Hringbraut()
-    hr.main()
-    #out = h.get_shows()
-    #print(out)
 
-    #out = h.get_episodes('/thaettir/man/')
-    #print(out)
+    out = hr.get_shows()
+    print(out)
+
+    out = hr.get_episodes('/sjonvarp/thaettir/man/')
+    print(out)
+
+    out = hr.get_episode('/sjonvarp/thaettir/bryggjan/bryggjan-6mars/')
+    print(out)

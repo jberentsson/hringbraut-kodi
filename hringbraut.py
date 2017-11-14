@@ -15,7 +15,9 @@ class Hringbraut:
         soup = BeautifulSoup(html, 'html.parser')
 
         shows = []
-        s = soup.find(id="box_sitemap_47").find(id="subnavigation-23")
+        s = soup.find(id="box_sitemap_47")\
+                .find(id="subnavigation-23")
+
         for link in s.find_all('a'):
             url = link.get('href')
             name = link.get_text()
@@ -30,12 +32,23 @@ class Hringbraut:
         soup = BeautifulSoup(html, 'html.parser')
 
         episodes=[]
-        for link in soup.find(id='contentContainer').find_all('a'):
+        s = soup.find(id='contentContainer')\
+                .find_all('a')
+
+        for link in s:
             l = link.get('href')
+            name = link.get_text()
             if l != None:
                 if url in l and url != l:
-                    episodes.append(l)
-        return episodes
+                    episodes.append({'name': name, 'url': l})
+        return {'episodes': episodes}
+
+    def get_episode(self, url):
+        """ Get the youtube url for an episode. """
+        html = urlopen(self.url + url)
+        soup = BeautifulSoup(html, 'html.parser')
+
+        return 'https:' + soup.find("iframe").get('src')
                     
 
     def print_shows(self):
@@ -55,7 +68,6 @@ class Hringbraut:
             if 0 < int(i) < 16:
                 out = self.get_shows()
                 t = out['shows'][int(i)]['url']
-                #print(t)
                 out = self.get_episodes(t)
                 pprint(out)
 
@@ -65,6 +77,4 @@ class Hringbraut:
 
 if __name__ == "__main__":
     h = Hringbraut()    
-    #h.main()
     out = h.get_episodes('/sjonvarp/thaettir/man/')
-    #print(out)
