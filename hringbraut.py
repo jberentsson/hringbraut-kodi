@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
 import re
+from pprint import pprint
 
 class Hringbraut:
     def __init__(self):
@@ -12,6 +13,7 @@ class Hringbraut:
         """ Get the name and urls for the shows. """
         html = urlopen(self.url + '/sjonvarp/')
         soup = BeautifulSoup(html, 'html.parser')
+
         shows = []
         s = soup.find(id="box_sitemap_47").find(id="subnavigation-23")
         for link in s.find_all('a'):
@@ -26,14 +28,12 @@ class Hringbraut:
         """ Get all of the episodes of a show. """
         html = urlopen(self.url + url)
         soup = BeautifulSoup(html, 'html.parser')
-        #print(url)
-        #for link in soup.find(id='tube').find_all('a'):
-        #    print(link.get('href'))
+
         episodes=[]
         for link in soup.find(id='contentContainer').find_all('a'):
             l = link.get('href')
             if l != None:
-                if url in l:
+                if url in l and url != l:
                     episodes.append(l)
         return episodes
                     
@@ -49,19 +49,19 @@ class Hringbraut:
     def main(self):
         """ The main function. """
         self.print_shows()
-        #try:
-        i = input("0 - 15: ")
+        try:
+            i = input("0 - 15: ")
 
-        if 0 < int(i) < 16:
-            out = self.get_shows()
-            t = out['shows'][int(i)]['url']
-            #print(t)
-            out = self.get_episodes(t)
-            print(out)
+            if 0 < int(i) < 16:
+                out = self.get_shows()
+                t = out['shows'][int(i)]['url']
+                #print(t)
+                out = self.get_episodes(t)
+                pprint(out)
 
-        self.main()
-        #except:
-        #    print("Error")
+            self.main()
+        except:
+            print("Error")
 
 if __name__ == "__main__":
     h = Hringbraut()    
