@@ -6,10 +6,7 @@ import json
 import hringbraut
 
 class innkodi:
-    def get_conf(self):
-        with open('config.json') as json_data:
-            return json.load(json_data)
-
+    """ ÍNN TV """
     def __init__(self):
         self.conf = self.get_conf()
         self.kodi = Kodi(self.conf['host'], self.conf['user'], self.conf['pass'])
@@ -17,7 +14,13 @@ class innkodi:
         ping = self.kodi.JSONRPC.Ping()
         print(ping)
 
+    def get_conf(self):
+        """ Get the config.json file. """
+        with open('config.json') as json_data:
+            return json.load(json_data)
+
     def play_video(self, id):
+        """ Send the video to kodi. """
         try:
             url = 'plugin://plugin.video.youtube/play/?video_id='
             data = {
@@ -35,10 +38,8 @@ def print_shows():
     """ Print the id and name of show. """
     shows = tv.get_shows()
 
-    i = 0
-    for show in shows['shows']:
+    for i, show in enumerate(shows['shows']):
         print("%s - %s" % (i, show['text']))
-        i += 1
 
     return shows['shows']
 
@@ -50,12 +51,16 @@ def print_episodes(id, shows):
 
     print(show['show']['name'])
     print(show['show']['description'])
+    
+    episodes = show['show']['episodes']
 
-    i = 0
-    for episode in show['show']['episodes']:
-        if episode['url'][-1].split("/")[-1].isdigit() == False:
-            print("%s - %s - %s" %(i, episode['text'], episode['url']))
-            i += 1
+    for i, episode in enumerate(episodes):
+        url = episode['url']
+        text = episode['text']
+
+        # TODO: refactor this.
+        if url[-1].split("/")[-1].isdigit() == False:
+            print("%s - %s - %s" %(i, text, url))
 
     return show['show']['episodes']
 
@@ -68,16 +73,19 @@ def get_id():
         return None
 
 def loop():
-    kodi = innkodi()
-    shows = print_shows()
-    show = print_episodes(get_id(), shows) 
-    episode = tv.get_episode(show[get_id()]['url'])
-    pprint(episode)
+    try:
+        kodi = innkodi()
+        shows = print_shows()
+        show = print_episodes(get_id(), shows) 
+        episode = tv.get_episode(show[get_id()]['url'])
+        pprint(episode)
 
-    kodi.play_video(episode)
-    loop()
+        kodi.play_video(episode)
+        loop()
+    except:
+        msg = "Unable to do something!"
+        print(msg)
 
 if __name__=="__main__":
-
     tv = hringbraut.Hringbraut()
     loop()

@@ -32,14 +32,18 @@ class Hringbraut:
 
     def get_episodes(self, url):
         """ Get all of the episodes of a show. """
-        html = urlopen(self.url + url)
-        soup = BeautifulSoup(html, 'html.parser')
+        try:
+            html = urlopen(self.url + url)
+            soup = BeautifulSoup(html, 'html.parser')
 
-        episodes=[]
-        s = soup.find(id='contentContainer')
-        info = s.find('div', {'class':'channelDescription'})
-        name = self.get_title(info)
-        description = self.get_description(info)
+            episodes=[]
+            s = soup.find(id='contentContainer')
+            info = s.find('div', {'class':'channelDescription'})
+            name = self.get_title(info)
+            description = self.get_description(info)
+        except:
+            msg = "Unable to get episodes!"
+            print(msg)
 
         try:
             for link in s.find_all('a'):
