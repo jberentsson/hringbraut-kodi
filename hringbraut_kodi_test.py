@@ -71,4 +71,4 @@ if __name__=="__main__":
     episode = tv.get_episode(show[get_id()]['url'])
     pprint(episode)
 
-    kodi.play_video(episode)
+    #kodi.play_video(episode)

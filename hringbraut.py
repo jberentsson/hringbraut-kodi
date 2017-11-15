@@ -47,38 +47,16 @@ class Hringbraut:
 
     def get_episode(self, url):
         """ Get the youtube url for an episode. """
-        html = urlopen(self.url + url)
-        soup = BeautifulSoup(html, 'html.parser')
-        #pprint(soup.find('iframe'))
-        return soup.find("iframe")\
-                   .get('src')\
-                   .split('?')[0]\
-                   .split('/')[-1]
-                                 
-
-    def print_shows(self):
-        """ Print the show names to terminal. """
-        shows = self.get_shows()
-        i = 0
-        for s in shows['shows']:
-            print("%s %s" % (i, s['text']))
-            i = i + 1
-
-    def main(self):
-        """ The main function. """
-        self.print_shows()
         try:
-            i = input("0 - 15: ")
-
-            if 0 < int(i) < 16:
-                out = self.get_shows()
-                t = out['shows'][int(i)]['url']
-                out = self.get_episodes(t)
-                pprint(out)
-
-            self.main()
+            html = urlopen(self.url + url)
+            soup = BeautifulSoup(html, 'html.parser')
+        
+            return soup.find("iframe")\
+                       .get('src')\
+                       .split('?')[0]\
+                       .split('/')[-1]
         except:
-            print("Error")
+             return None                        
 
 if __name__ == "__main__":
     h = Hringbraut()    
