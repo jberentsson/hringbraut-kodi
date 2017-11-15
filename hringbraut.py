@@ -38,25 +38,42 @@ class Hringbraut:
         episodes=[]
         s = soup.find(id='contentContainer')
         info = s.find('div', {'class':'channelDescription'})
-        name = s.find('h2').get_text()
-        desc = s.find_all('p')
-        description = desc[0].get_text() + " " + desc[1].get_text()
-        for link in s.find_all('a'):
-            l = link.get('href')
-            text = link.get_text().strip()
-            if l != None:
-                if url in l and url != l:
-                    episodes.append({'text': text, 'url': l})
-        return {'show':{'episodes': episodes, 'name': name, 'description': description}}
+        name = self.get_title(info)
+        description = self.get_description(info)
+
+        try:
+            for link in s.find_all('a'):
+                l = link.get('href')
+                text = link.get_text().strip()
+                if l != None:
+                    if url in l and url != l:
+                        episodes.append({'text': text, 'url': l})
+            return {'show':{'episodes': episodes, 'name': name, 'description': description}}
+        except:
+            return None
+
+    def get_title(self, soup):
+        try:
+            return soup.find('h2').get_text()
+        except:
+            return "~NAME MISSING~"
+
+    def get_description(self, soup):
+        try:
+            desc = soup.find_all('p')
+            return desc[0].get_text() + " " + desc[1].get_text()
+        except:
+            return "~Description MISSING~"
 
     def get_episode(self, url):
-        """ Get the youtube url for an episode. """
-        with urlopen(self.url + url) as response:
-            html = response.read()
-        soup = BeautifulSoup(html, 'html.parser')
-        s = soup.find('iframe').get('src').split('?')[0].split('/')[-1]
-        pprint(s)
-        return s
+        try:
+            """ Get the youtube url for an episode. """
+            with urlopen(self.url + url) as response:
+                html = response.read()
+            soup = BeautifulSoup(html, 'html.parser')
+            return soup.find('iframe').get('src').split('?')[0].split('/')[-1]
+        except:
+            return None
 
 if __name__ == "__main__":
     h = Hringbraut()    

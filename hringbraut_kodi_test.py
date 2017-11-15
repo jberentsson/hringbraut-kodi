@@ -18,14 +18,18 @@ class innkodi:
         print(ping)
 
     def play_video(self, id):
-        url = 'plugin://plugin.video.youtube/play/?video_id='
-        data = {
-            "item":{
-                "file":url + id
+        try:
+            url = 'plugin://plugin.video.youtube/play/?video_id='
+            data = {
+                "item":{
+                    "file":url + id
+                }
             }
-        }
 
-        self.kodi.Player.Open(data)
+            self.kodi.Player.Open(data)
+        except:
+            msg = "Unable to play video!"
+            print(msg)
 
 def print_shows():
     """ Print the id and name of show. """
@@ -33,7 +37,6 @@ def print_shows():
 
     i = 0
     for show in shows['shows']:
-        #pprint(show)
         print("%s - %s" % (i, show['text']))
         i += 1
 
@@ -44,7 +47,7 @@ def print_episodes(id):
     t = shows[id]['url']
     
     show = tv.get_episodes(t)
-    #pprint(show)
+
     print(show['show']['name'])
     print(show['show']['description'])
 
