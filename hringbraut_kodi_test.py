@@ -42,7 +42,7 @@ def print_shows():
 
     return shows['shows']
 
-def print_episodes(id):
+def print_episodes(id, shows):
     """ Print the id and name of the episodes """
     t = shows[id]['url']
     
@@ -60,18 +60,24 @@ def print_episodes(id):
     return show['show']['episodes']
 
 def get_id():
+    """ Get the user input for the ID. """
     try:
         id = input("Enter the show ID: ")
         return int(id)
     except:
         return None
 
-if __name__=="__main__":
+def loop():
     kodi = innkodi()
-    tv = hringbraut.Hringbraut()
     shows = print_shows()
-    show = print_episodes(get_id()) 
+    show = print_episodes(get_id(), shows) 
     episode = tv.get_episode(show[get_id()]['url'])
     pprint(episode)
 
     kodi.play_video(episode)
+    loop()
+
+if __name__=="__main__":
+
+    tv = hringbraut.Hringbraut()
+    loop()

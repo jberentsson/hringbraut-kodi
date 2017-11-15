@@ -53,12 +53,14 @@ class Hringbraut:
             return None
 
     def get_title(self, soup):
+        """ Get the name of the show. """
         try:
             return soup.find('h2').get_text()
         except:
             return "~NAME MISSING~"
 
     def get_description(self, soup):
+        """ Get show description. """
         try:
             desc = soup.find_all('p')
             return desc[0].get_text() + " " + desc[1].get_text()
@@ -66,8 +68,8 @@ class Hringbraut:
             return "~Description MISSING~"
 
     def get_episode(self, url):
+        """ Get the youtube url for an episode. """
         try:
-            """ Get the youtube url for an episode. """
             with urlopen(self.url + url) as response:
                 html = response.read()
             soup = BeautifulSoup(html, 'html.parser')
