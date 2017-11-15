@@ -20,9 +20,9 @@ class Hringbraut:
 
         for link in s.find_all('a'):
             url = link.get('href')
-            name = link.get_text()
+            text = link.get_text()
             if '/thaettir/' in url:
-                shows.append({'name': name, 'url': url})
+                shows.append({'text': text, 'url': url})
                 
         return {'shows': shows}
 
@@ -37,17 +37,17 @@ class Hringbraut:
 
         for link in s:
             l = link.get('href')
-            name = link.get_text()
+            text = link.get_text().strip()
             if l != None:
                 if url in l and url != l:
-                    episodes.append({'name': name, 'url': l})
+                    episodes.append({'text': text, 'url': l})
         return {'episodes': episodes}
 
     def get_episode(self, url):
         """ Get the youtube url for an episode. """
         html = urlopen(self.url + url)
         soup = BeautifulSoup(html, 'html.parser')
-
+        #pprint(soup.find('iframe'))
         return 'https:' + soup.find("iframe").get('src')
                     
 
@@ -56,7 +56,7 @@ class Hringbraut:
         shows = self.get_shows()
         i = 0
         for s in shows['shows']:
-            print("%s %s" % (i, s['name']))
+            print("%s %s" % (i, s['text']))
             i = i + 1
 
     def main(self):
