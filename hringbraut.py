@@ -32,16 +32,18 @@ class Hringbraut:
         soup = BeautifulSoup(html, 'html.parser')
 
         episodes=[]
-        s = soup.find(id='contentContainer')\
-                .find_all('a')
-
-        for link in s:
+        s = soup.find(id='contentContainer')
+        info = s.find('div', {'class':'channelDescription'})
+        name = s.find('h2').get_text()
+        desc = s.find_all('p')
+        description = desc[0].get_text() + " " + desc[1].get_text()
+        for link in s.find_all('a'):
             l = link.get('href')
             text = link.get_text().strip()
             if l != None:
                 if url in l and url != l:
                     episodes.append({'text': text, 'url': l})
-        return {'episodes': episodes}
+        return {'show':{'episodes': episodes, 'name': name, 'description': description}}
 
     def get_episode(self, url):
         """ Get the youtube url for an episode. """
@@ -52,7 +54,7 @@ class Hringbraut:
                    .get('src')\
                    .split('?')[0]\
                    .split('/')[-1]
-                    
+                                 
 
     def print_shows(self):
         """ Print the show names to terminal. """

@@ -45,16 +45,16 @@ def print_episodes(id):
     
     show = tv.get_episodes(t)
     #pprint(show)
-    #print(show['show']['name'])
-    #print(show['show']['description'])
+    print(show['show']['name'])
+    print(show['show']['description'])
 
     i = 0
-    for episode in show['episodes']:
+    for episode in show['show']['episodes']:
         if episode['url'][-1].split("/")[-1].isdigit() == False:
             print("%s - %s - %s" %(i, episode['text'], episode['url']))
             i += 1
 
-    return show['episodes']
+    return show['show']['episodes']
 
 def get_id():
     try:
@@ -71,4 +71,4 @@ if __name__=="__main__":
     episode = tv.get_episode(show[get_id()]['url'])
     pprint(episode)
 
-    kodi.play_video(episode)
+    #kodi.play_video(episode)
