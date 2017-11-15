@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
+#from urllib.parse import 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC 
+from selenium.webdriver.support.ui import WebDriverWait 
 import re
 from pprint import pprint
 
@@ -47,16 +51,12 @@ class Hringbraut:
 
     def get_episode(self, url):
         """ Get the youtube url for an episode. """
-        #try:
-        browser = webdriver.PhantomJS('phantomjs')
-        browser.get(self.url + url)
-        html = browser.page_source
-        soup = BeautifulSoup(html, 'lxml')
-        
-        return soup.find("iframe")\
-                   .get('src')\
-                   .split('?')[0]\
-                   .split('/')[-1]                        
+        with urlopen(self.url + url) as response:
+            html = response.read()
+        soup = BeautifulSoup(html, 'html.parser')
+        s = soup.find('iframe').get('src').split('?')[0].split('/')[-1]
+        pprint(s)
+        return s
 
 if __name__ == "__main__":
     h = Hringbraut()    
