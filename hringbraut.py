@@ -48,7 +48,10 @@ class Hringbraut:
         html = urlopen(self.url + url)
         soup = BeautifulSoup(html, 'html.parser')
         #pprint(soup.find('iframe'))
-        return 'https:' + soup.find("iframe").get('src')
+        return soup.find("iframe")\
+                   .get('src')\
+                   .split('?')[0]\
+                   .split('/')[-1]
                     
 
     def print_shows(self):

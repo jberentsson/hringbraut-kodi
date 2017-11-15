@@ -18,7 +18,7 @@ class innkodi:
         print(ping)
 
     def play_video(self, id):
-        url = 'plugin://plugin.video.vimeo/play/?video_id='
+        url = 'plugin://plugin.video.youtube/play/?video_id='
         data = {
             "item":{
                 "file":url + id
@@ -71,4 +71,4 @@ if __name__=="__main__":
     episode = tv.get_episode(show[get_id()]['url'])
     pprint(episode)
 
-    #kodi.play_video(episode)
+    kodi.play_video(episode)
