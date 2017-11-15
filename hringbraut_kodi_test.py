@@ -5,8 +5,8 @@ import json
 
 import hringbraut
 
-class innkodi:
-    """ ÍNN TV """
+class HringbrautKodi:
+    """ Hringbraut Kodi addon testing. """
     def __init__(self):
         self.conf = self.get_conf()
         self.kodi = Kodi(self.conf['host'], self.conf['user'], self.conf['pass'])
@@ -51,7 +51,7 @@ def print_episodes(id, shows):
 
     print(show['show']['name'])
     print(show['show']['description'])
-    
+
     episodes = show['show']['episodes']
 
     for i, episode in enumerate(episodes):
@@ -74,7 +74,7 @@ def get_id():
 
 def loop():
     try:
-        kodi = innkodi()
+        kodi = HringbrautKodi()
         shows = print_shows()
         show = print_episodes(get_id(), shows) 
         episode = tv.get_episode(show[get_id()]['url'])

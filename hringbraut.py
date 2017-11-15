@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
-#from urllib.parse import 
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC 
@@ -9,7 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 import re
 from pprint import pprint
 
-class Hringbraut:
+class Hringbraut(object):
+    """ Hringbraut Kodi addon. """
     def __init__(self):
         self.url = 'http://www.hringbraut.is'
 
@@ -26,8 +27,11 @@ class Hringbraut:
             url = link.get('href')
             text = link.get_text()
             if '/thaettir/' in url:
-                shows.append({'text': text, 'url': url})
-                
+                shows.append({
+                    'text': text,
+                    'url': url
+                })
+
         return {'shows': shows}
 
     def get_episodes(self, url):
