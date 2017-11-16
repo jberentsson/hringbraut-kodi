@@ -36,19 +36,19 @@ class Hringbraut(object):
 
     def get_episodes(self, url):
         """ Get all of the episodes of a show. """
-        #try:
-        html = urlopen(self.url + url)
-        soup = BeautifulSoup(html, 'html.parser')
+        try:
+            html = urlopen(self.url + url)
+            soup = BeautifulSoup(html, 'html.parser')
 
-        episodes=[]
-        s = soup.find(id='contentContainer')
-        info = s.find('div', {'class':'channelDescription'})
-        name = self.get_title(info)
-        description = self.get_description(info)
+            episodes=[]
+            s = soup.find(id='contentContainer')
+            info = s.find('div', {'class':'channelDescription'})
+            name = self.get_title(info)
+            description = self.get_description(info)
 
-        #except:
-        #    msg = "Unable to get episodes!"
-        #    print(msg)
+        except:
+            msg = "Unable to get episodes!"
+            print(msg)
         thumbs = soup.find(id='tube')\
                   .find('div', {'class':'row'})\
                   .find_all('div', {'class':'videoThumb'})
