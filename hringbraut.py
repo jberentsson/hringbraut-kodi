@@ -36,27 +36,39 @@ class Hringbraut(object):
 
     def get_episodes(self, url):
         """ Get all of the episodes of a show. """
-        try:
-            html = urlopen(self.url + url)
-            soup = BeautifulSoup(html, 'html.parser')
+        #try:
+        html = urlopen(self.url + url)
+        soup = BeautifulSoup(html, 'html.parser')
 
-            episodes=[]
-            s = soup.find(id='contentContainer')
-            info = s.find('div', {'class':'channelDescription'})
-            name = self.get_title(info)
-            description = self.get_description(info)
-        except:
-            msg = "Unable to get episodes!"
-            print(msg)
+        episodes=[]
+        s = soup.find(id='contentContainer')
+        info = s.find('div', {'class':'channelDescription'})
+        name = self.get_title(info)
+        description = self.get_description(info)
 
+        #except:
+        #    msg = "Unable to get episodes!"
+        #    print(msg)
+        thumbs = soup.find(id='tube')\
+                  .find('div', {'class':'row'})\
+                  .find_all('div', {'class':'videoThumb'})
+
+  
         try:
-            for link in s.find_all('a'):
-                l = link.get('href')
-                text = link.get_text().strip()
-                if l != None:
-                    if url in l and url != l:
-                        episodes.append({'text': text, 'url': l})
-            return {'show':{'episodes': episodes, 'name': name, 'description': description}}
+            for t in thumbs:
+                episodes.append({
+                    'text': t.find('h3').get_text(),
+                    'url': t.find('a').get('href'),
+                    'thumb': t.find('img').get('src'),
+                    'date': t.find('span', {'class': 'date'}).get('src'),
+                })
+            return {
+                    'show':{
+                        'episodes': episodes,
+                        'name': name, 
+                        'description': description
+                        }
+                    }
         except:
             return None
 

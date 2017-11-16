@@ -78,23 +78,23 @@ def get_id():
         return None
 
 def loop():
-    try:
-        os.system('clear')
-        kodi = HringbrautKodi()
-        shows = print_shows()
+    #try:
+    os.system('clear')
+    kodi = HringbrautKodi()
+    shows = print_shows()
 
-        show = print_episodes(get_id(), shows)
+    show = print_episodes(get_id(), shows)
 
-        episode = tv.get_episode(show[get_id()]['url'])
-        
-        pprint(episode)
+    episode = tv.get_episode(show[get_id()]['url'])
+    
+    pprint(episode)
 
 
-        kodi.play_video(episode)
-        loop()
-    except:
-        msg = "Unable to do something!"
-        print(msg)
+    kodi.play_video(episode)
+    loop()
+    #except:
+    #    msg = "Unable to do something!"
+    #    print(msg)
 
 if __name__=="__main__":
     tv = hringbraut.Hringbraut()
