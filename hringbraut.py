@@ -10,11 +10,15 @@ class Hringbraut(object):
     def __init__(self):
         self.url = 'http://www.hringbraut.is'
 
+    def read_url(self, url):
+        """  """
+        html = urlopen(url)
+        soup = BeautifulSoup(html, 'html.parser')
+        return soup
+
     def get_shows(self):
         """ Get the name and urls for the shows. """
-        html = urlopen(self.url + '/sjonvarp/')
-        soup = BeautifulSoup(html, 'html.parser')
-
+        soup = self.read_url(self.url + '/sjonvarp/')
         shows = []
         s = soup.find(id="box_sitemap_47")\
                 .find(id="subnavigation-23")
@@ -33,9 +37,7 @@ class Hringbraut(object):
     def get_show(self, url):
         """ Get all of the episodes of a show. """
         try:
-            html = urlopen(self.url + url)
-            soup = BeautifulSoup(html, 'html.parser')
-
+            soup = self.read_url(self.url + url)
             s = soup.find(id='contentContainer')
             info = s.find('div', {'class':'channelDescription'})
 
@@ -94,9 +96,7 @@ class Hringbraut(object):
     def get_episode(self, url):
         """ Get the youtube url for an episode. """
         try:
-            with urlopen(self.url + url) as response:
-                html = response.read()
-            soup = BeautifulSoup(html, 'html.parser')
+            soup = self.read_url(self.url + url)
             return soup.find('iframe')\
                        .get('src')\
                        .split('?')[0]\

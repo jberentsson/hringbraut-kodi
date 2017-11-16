@@ -12,9 +12,6 @@ class HringbrautKodi:
         self.conf = self.get_conf()
         self.kodi = Kodi(self.conf['host'], self.conf['user'], self.conf['pass'])
 
-        ping = self.kodi.JSONRPC.Ping()
-        print(ping)
-
     def get_conf(self):
         """ Get the config.json file. """
         with open('config.json') as json_data:
