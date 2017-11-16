@@ -11,7 +11,7 @@ class Hringbraut(object):
         self.url = 'http://www.hringbraut.is'
 
     def read_url(self, url):
-        """  """
+        """ Get the url data. """
         html = urlopen(url)
         soup = BeautifulSoup(html, 'html.parser')
         return soup
