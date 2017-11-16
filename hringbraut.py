@@ -2,10 +2,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC 
-from selenium.webdriver.support.ui import WebDriverWait 
 import re
 from pprint import pprint
 
@@ -34,41 +30,49 @@ class Hringbraut(object):
 
         return {'shows': shows}
 
-    def get_episodes(self, url):
+    def get_show(self, url):
         """ Get all of the episodes of a show. """
         try:
             html = urlopen(self.url + url)
             soup = BeautifulSoup(html, 'html.parser')
 
-            episodes=[]
             s = soup.find(id='contentContainer')
             info = s.find('div', {'class':'channelDescription'})
-            name = self.get_title(info)
-            description = self.get_description(info)
+
+            return {
+                    'show':{
+                        'episodes': self.get_episodes(s),
+                        'name': self.get_title(info), 
+                        'description': self.get_description(info)
+                        }
+                    }
 
         except:
             msg = "Unable to get episodes!"
             print(msg)
-        thumbs = soup.find(id='tube')\
-                  .find('div', {'class':'row'})\
-                  .find_all('div', {'class':'videoThumb'})
-
-  
+            return None
+        
+    def get_episodes(self, soup):
+        """ Get all of the episodes for a show. """
         try:
+            episodes=[]
+            thumbs = soup.find(id='tube')\
+                    .find('div', {'class':'row'})\
+                    .find_all('div', {'class':'videoThumb'})
+
             for t in thumbs:
                 episodes.append({
-                    'text': t.find('h3').get_text(),
-                    'url': t.find('a').get('href'),
-                    'thumb': t.find('img').get('src'),
-                    'date': t.find('span', {'class': 'date'}).get('src'),
+                    'text': t.find('h3')\
+                             .get_text(),
+                    'url': t.find('a')\
+                            .get('href'),
+                    'thumb': t.find('img')\
+                              .get('src'),
+                    'date': t.find('span', {'class': 'date'})\
+                             .get('src'),
                 })
-            return {
-                    'show':{
-                        'episodes': episodes,
-                        'name': name, 
-                        'description': description
-                        }
-                    }
+
+            return episodes
         except:
             return None
 
@@ -93,10 +97,13 @@ class Hringbraut(object):
             with urlopen(self.url + url) as response:
                 html = response.read()
             soup = BeautifulSoup(html, 'html.parser')
-            return soup.find('iframe').get('src').split('?')[0].split('/')[-1]
+            return soup.find('iframe')\
+                       .get('src')\
+                       .split('?')[0]\
+                       .split('/')[-1]
         except:
             return None
 
 if __name__ == "__main__":
     h = Hringbraut()    
-    out = h.get_episodes('/sjonvarp/thaettir/man/')
+    out = h.get_show('/sjonvarp/thaettir/man/')

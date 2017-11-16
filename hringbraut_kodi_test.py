@@ -37,7 +37,6 @@ class HringbrautKodi:
 
 def print_shows():
     """ Print the id and name of show. """
-
     os.system('clear')
     shows = tv.get_shows()
 
@@ -48,11 +47,10 @@ def print_shows():
 
 def print_episodes(id, shows):
     """ Print the id and name of the episodes """
-
     os.system('clear')
     t = shows[id]['url']
-    
-    show = tv.get_episodes(t)
+
+    show = tv.get_show(t)
 
     print(show['show']['name'])
     print(show['show']['description'])
@@ -82,14 +80,9 @@ def loop():
         os.system('clear')
         kodi = HringbrautKodi()
         shows = print_shows()
-
         show = print_episodes(get_id(), shows)
-
         episode = tv.get_episode(show[get_id()]['url'])
-        
         pprint(episode)
-
-
         kodi.play_video(episode)
         loop()
     except:
