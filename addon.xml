@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.hringbraut" name="Hringbraut" version="1.0.1" provider-name="zag">
+<addon id="plugin.video.hringbraut" name="Hringbraut" version="1.0.1" provider-name="zag">
 <requires>
-<import addon="xbmc.python" version="3.4.0"/>
+<import addon="xbmc.python" version="3.4.2"/>
+<import addon="script.module.beautifulsoup4" version="4.6.0"/>
+<import addon="script.module.urlresolver" version="3.0.32"/>
 </requires>
-<extension point="xbmc.python.hringbraut" library="app.py">
-<provides>executable</provides>
+<extension point="xbmc.python.pluginsource" library="app.py">
+<provides>video</provides>
 </extension>
 <extension point="xbmc.addon.metadata">
 <platform>all</platform>

@@ -4,13 +4,13 @@ from hringbraut import Hringbraut
 import xbmc
 import xbmcgui
 import xbmcplugin
-import xmbcaddon
+#import xmbcaddon
 
-addon = xbmcaddon.Addon()
-addonname = addon.getAddonInfo('Hringbraut')
+#addon = xbmcaddon.Addon()
+#addonname = addon.getAddonInfo('Hringbraut')
 
 line1 = "Hello"
 line2 = "WORLD"
 line3 = "!!!"
 
-xbmcgui.Dialog().ok(addonname, line1, line2, line3)
+xbmcgui.Dialog().ok(line1, line2, line3)
