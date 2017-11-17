@@ -11,9 +11,9 @@ tv = hringbraut.Hringbraut()
 shows = tv.get_shows()
 
 #line2 = shows['shows'][1]['text']
+username = "johann"
 
-line1 = "WORLD"
-line2 = json.dumps(shows)
-line3 = "!!!"
-
-xbmcgui.Dialog().ok(line1, line2, line3)
+for show in shows['shows']:
+    item = xbmcgui.ListItem('%s' % show['text'])
+    xbmcplugin.addDirectoryItem(int(sys.argv[1]), '', item, isFolder=0)
+xbmcplugin.endOfDirectory(int(sys.argv[1]))
