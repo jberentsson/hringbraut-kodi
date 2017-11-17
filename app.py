@@ -5,13 +5,9 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import json
-import hringbraut
 
-tv = hringbraut.Hringbraut()
+tv = Hringbraut()
 shows = tv.get_shows()
-
-#line2 = shows['shows'][1]['text']
-username = "johann"
 
 for show in shows['shows']:
     item = xbmcgui.ListItem('%s' % show['text'])
