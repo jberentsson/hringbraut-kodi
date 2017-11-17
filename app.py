@@ -4,13 +4,16 @@ from hringbraut import Hringbraut
 import xbmc
 import xbmcgui
 import xbmcplugin
-#import xmbcaddon
+import json
+import hringbraut
 
-#addon = xbmcaddon.Addon()
-#addonname = addon.getAddonInfo('Hringbraut')
+tv = hringbraut.Hringbraut()
+shows = tv.get_shows()
 
-line1 = "Hello"
-line2 = "WORLD"
+#line2 = shows['shows'][1]['text']
+
+line1 = "WORLD"
+line2 = json.dumps(shows)
 line3 = "!!!"
 
 xbmcgui.Dialog().ok(line1, line2, line3)

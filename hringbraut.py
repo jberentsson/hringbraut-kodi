@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
-#from urllib.request import urlopen, Request
-
-import re
 from pprint import pprint
+
+import urllib2
+import re
 
 class Hringbraut(object):
     """ Hringbraut Kodi addon. """
@@ -12,7 +12,7 @@ class Hringbraut(object):
 
     def read_url(self, url):
         """ Get the url data. """
-        html = urllib.urlopen(url)
+        html = urllib2.urlopen(url)
         soup = BeautifulSoup(html, 'html.parser')
         return soup
 
