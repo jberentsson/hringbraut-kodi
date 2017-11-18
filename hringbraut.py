@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
 from pprint import pprint
+try:
+    from urllib2 import urlopen
+except:
+    from urllib.request import urlopen
 
-import urllib2
 import re
 
 class Hringbraut(object):
@@ -12,7 +15,7 @@ class Hringbraut(object):
 
     def read_url(self, url):
         """ Get the url data. """
-        html = urllib2.urlopen(url)
+        html = urlopen(url)
         soup = BeautifulSoup(html, 'html.parser')
         return soup
 
