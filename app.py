@@ -5,12 +5,16 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import json
+import urlparse
+import urllib
 
 tv = Hringbraut()
 shows = tv.get_shows()
 
+base_url = sys.argv[0]
 addon_handle = int(sys.argv[1])
 
+args = urlparse.parse_qs(sys.argv[2][1:])
 
 xbmcplugin.setContent(addon_handle, 'episodes')
 
@@ -28,14 +32,14 @@ def main():
     for i, show in enumerate(shows['shows']):
         item = xbmcgui.ListItem('%s' % show['text'])
         url = build_url({'mode':'show', 'url':show['url']}) 
-        xbmcplugin.addDirectoryItem(addon_handle), url, item, isFolder=True)
+        xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=True)
     xbmcplugin.endOfDirectory(addon_handle)
 
 def show(url):
     # List the episodes.
-    episodes = tv.get_episode(url)
-    for e in episodes:
-        item = xbmcgui.ListItem('%s' % show['text'])
+    episodes = tv.get_show(url)
+    for e in episodes['show']['episodes']:
+        item = xbmcgui.ListItem('%s' % e['text'])
         xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
@@ -43,6 +47,6 @@ def show(url):
 if mode is None:
     main()
 
-elif mode[0] = 'show':
+elif mode[0] == 'show':
     url=args['url'][0]
     show(url)
