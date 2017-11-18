@@ -52,9 +52,9 @@ def play(video_id):
     vid_url = play_item.getfilename()
     stream_url = resolve_url(vid_url)
     if stream_url:
-    play_item.setPath(stream_url)
-    # Pass the item to the Kodi player.
-    xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)
+        play_item.setPath(stream_url)
+        # Pass the item to the Kodi player.
+        xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)
 
     #item = xbmcgui.ListItem('%s' % playback_url)
     #xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
