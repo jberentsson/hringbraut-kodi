@@ -26,15 +26,15 @@ class HringbrautKodi:
                     "file":url + id
                 }
             }
-
-            self.kodi.Player.Open(data)
+            print(data)
+            #self.kodi.Player.Open(data)
         except:
             msg = "Unable to play video!"
             print(msg)
 
 def print_shows():
     """ Print the id and name of show. """
-    os.system('clear')
+    #os.system('clear')
     shows = tv.get_shows()
 
     for i, show in enumerate(shows['shows']):
@@ -44,7 +44,7 @@ def print_shows():
 
 def print_episodes(id, shows):
     """ Print the id and name of the episodes """
-    os.system('clear')
+    #os.system('clear')
     t = shows[id]['url']
 
     show = tv.get_show(t)
@@ -74,7 +74,7 @@ def get_id():
 
 def loop():
     #try:
-    os.system('clear')
+    #os.system('clear')
     kodi = HringbrautKodi()
     shows = print_shows()
     show = print_episodes(get_id(), shows)
