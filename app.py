@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from hringbraut import Hringbraut
-import urlresolver
+#import urlresolver
 import xbmc
 import xbmcgui
 import xbmcplugin
@@ -39,26 +39,13 @@ def show(url):
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
-        url = build_url({'mode':'play', 'url':e['url']}) 
+        url = build_url({'mode':'play', 'url':e['url'], 'name':'test'}) 
         xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
-def play(video_id):
-    path = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
-    #item = xbmcgui.ListItem(path=playback_url)
-    #xbmcplugin.setResolvedUrl(addon_handle, True, item)
-
-    play_item = xbmcgui.ListItem(path=path)
-    vid_url = play_item.getfilename()
-    stream_url = resolve_url(vid_url)
-    if stream_url:
-        play_item.setPath(stream_url)
-        # Pass the item to the Kodi player.
-        xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)
-
-    #item = xbmcgui.ListItem('%s' % playback_url)
-    #xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
-    #xbmcplugin.endOfDirectory(addon_handle)
+def play(video_id, name):
+    url = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
+    xbmc.Player().play(url, xbmcgui.ListItem(name))
 
 def resolve_url(url):
     duration=7500 #in milliseconds
@@ -81,4 +68,5 @@ elif mode[0] == 'show':
 
 elif mode[0] == 'play':
     url=args['url'][0]
-    play(url)
+    name=args['name'][0]
+    play(url, name)
