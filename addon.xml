@@ -19,10 +19,7 @@
     <email>zag@kodi.org</email>
     <assets>
         <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-        <screenshot>resources/screenshot-01.jpg</screenshot>
-        <screenshot>resources/screenshot-02.jpg</screenshot>
-        <screenshot>resources/screenshot-03.jpg</screenshot>
+        <fanart>fanart.png</fanart>
         </assets>
         <news>Updated the addon to use new addon.xml metadata</news>
     </extension>
