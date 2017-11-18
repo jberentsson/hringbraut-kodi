@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from hringbraut import Hringbraut
-
+import urlresolver
 import xbmc
 import xbmcgui
 import xbmcplugin
@@ -40,16 +40,37 @@ def show(url):
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
         url = build_url({'mode':'play', 'url':e['url']}) 
-        xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=True)
+        xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
 def play(video_id):
-    playback_url = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
+    path = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
     #item = xbmcgui.ListItem(path=playback_url)
     #xbmcplugin.setResolvedUrl(addon_handle, True, item)
-    item = xbmcgui.ListItem('%s' % playback_url)
-    xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
-    xbmcplugin.endOfDirectory(addon_handle)
+
+    play_item = xbmcgui.ListItem(path=path)
+    vid_url = play_item.getfilename()
+    stream_url = resolve_url(vid_url)
+    if stream_url:
+    play_item.setPath(stream_url)
+    # Pass the item to the Kodi player.
+    xbmcplugin.setResolvedUrl(addon_handle, True, listitem=play_item)
+
+    #item = xbmcgui.ListItem('%s' % playback_url)
+    #xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
+    #xbmcplugin.endOfDirectory(addon_handle)
+
+def resolve_url(url):
+    duration=7500 #in milliseconds
+    message = "Cannot Play URL"
+    stream_url = urlresolver.HostedMediaFile(url=url).resolve()
+    # If urlresolver returns false then the video url was not resolved.
+    if not stream_url:
+        dialog = xbmcgui.Dialog()
+        dialog.notification("URL Resolver Error", message, xbmcgui.NOTIFICATION_INFO, duration)
+        return False
+    else: 
+        return stream_url
 
 if mode is None:
     main()
