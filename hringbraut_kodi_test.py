@@ -49,6 +49,8 @@ def print_episodes(id, shows):
 
     show = tv.get_show(t)
 
+    pprint(show)
+    
     print(show['show']['name'])
     print(show['show']['description'])
 

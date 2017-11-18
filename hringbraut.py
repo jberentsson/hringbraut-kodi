@@ -44,20 +44,14 @@ class Hringbraut(object):
             s = soup.find(id='contentContainer')
             info = s.find('div', {'class':'channelDescription'})
 
-            nav = s.find('div', {'class':pagerContent'}),
-            print(nav)
+            self.nav = s.find('div', {'class':'pagerContent'})
 
-            def get_prev():
-                return nav.find('span', {'class': 'previous'})
 
-            def get_next():
-                return nav.find('span', {'class': 'next'})
-            
             return {
                     'show':{
                         'nav': {
-                            'prev': get_prev(),
-                            'next': get_next()
+                            'prev': self.get_nav('previous'),
+                            'next': self.get_nav('next')
                         },
                         'episodes': self.get_episodes(s),
                         'name': self.get_title(info),
@@ -69,7 +63,16 @@ class Hringbraut(object):
             msg = "Unable to get episodes!"
             print(msg)
             return None
-        
+
+    def get_nav(self, direction):
+        """ Get the navigation urls. """
+        try:
+            out = self.nav.find('a', {'class': direction})#.find('a').get('href')
+            out = str(out).split('"')
+            return out[3]
+        except:
+            return None
+
     def get_episodes(self, soup):
         """ Get all of the episodes for a show. """
         try:
