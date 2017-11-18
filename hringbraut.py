@@ -43,15 +43,13 @@ class Hringbraut(object):
             soup = self.read_url(self.url + url)
             s = soup.find(id='contentContainer')
             info = s.find('div', {'class':'channelDescription'})
-
-            self.nav = s.find('div', {'class':'pagerContent'})
-
+            nav = s.find('div', {'class':'pagerContent'})
 
             return {
                     'show':{
                         'nav': {
-                            'prev': self.get_nav('previous'),
-                            'next': self.get_nav('next')
+                            'prev': self.get_nav(nav, 'previous'),
+                            'next': self.get_nav(nav, 'next')
                         },
                         'episodes': self.get_episodes(s),
                         'name': self.get_title(info),
@@ -64,11 +62,11 @@ class Hringbraut(object):
             print(msg)
             return None
 
-    def get_nav(self, direction):
+    def get_nav(self, nav, direction):
         """ Get the navigation urls. """
         try:
-            out = self.nav.find('a', {'class': direction})#.find('a').get('href')
-            out = str(out).split('"')
+            out = nav.find('a', {'class': direction})
+            out = str(out).split('"') # Not sure why I had to do this?
             return out[3]
         except:
             return None
