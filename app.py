@@ -20,7 +20,6 @@ action_value = params.get("action_value")
 name = params.get("name")
 mode = args.get('mode', None)
 
-
 def build_url(query):
     return base_url + '?' + urllib.urlencode(query)
 
@@ -29,7 +28,7 @@ def main():
     for i, show in enumerate(shows['shows']):
         item = xbmcgui.ListItem('%s' % show['text'])
         url = build_url({'mode':'show', 'url':show['url']}) 
-        xbmcplugin.addDirectory(addon_handle), url, item, isFolder=True)
+        xbmcplugin.addDirectoryItem(addon_handle), url, item, isFolder=True)
     xbmcplugin.endOfDirectory(addon_handle)
 
 def show(url):
