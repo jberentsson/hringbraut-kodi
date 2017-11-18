@@ -39,7 +39,7 @@ def show(url):
     # List the episodes.
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
-        item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text'])
+        item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
         xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
