@@ -83,7 +83,7 @@ class Hringbraut(object):
             for t in thumbs:
                 episodes.append({
                     'text': t.find('h3')\
-                             .get_text().encode('utf-8'),
+                             .get_text(),
                     'url': t.find('a')\
                             .get('href'),
                     'thumb': t.find('img')\
