@@ -54,3 +54,7 @@ if mode is None:
 elif mode[0] == 'show':
     url=args['url'][0]
     show(url)
+
+elif mode[0] == 'play':
+    url=args['url'][0]
+    play(url)
