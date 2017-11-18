@@ -74,7 +74,7 @@ class Hringbraut(object):
                     'thumb': t.find('img')\
                               .get('src'),
                     'date': t.find('span', {'class': 'date'})\
-                             .get('src'),
+                             .get_text(),
                 })
 
             return episodes
