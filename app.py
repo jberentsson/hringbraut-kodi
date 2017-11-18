@@ -40,10 +40,13 @@ def show(url):
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
-        url = build_url({'mode':'play', 'video_id':e['id']}) 
+        url = build_url({'mode':'play', 'url':e['url']}) 
         xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
+def play(url):
+    id = tv.get_episode(url)
+    xbmc.executebuiltin( 'Container.Update(plugin://plugin.video.youtube/?action=play_video&videoid='+ id +')' ) 
 
 if mode is None:
     main()
