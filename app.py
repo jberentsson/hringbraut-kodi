@@ -7,7 +7,6 @@ import xbmcplugin
 import json
 import urlparse
 import urllib
-
 tv = Hringbraut()
 shows = tv.get_shows()
 
@@ -41,12 +40,16 @@ def show(url):
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
         url = build_url({'mode':'play', 'url':e['url']}) 
-        xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
+        xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=True)
     xbmcplugin.endOfDirectory(addon_handle)
 
-def play(url):
-    id = tv.get_episode(url)
-    xbmc.executebuiltin( 'Container.Update(plugin://plugin.video.youtube/?action=play_video&videoid='+ id +')' ) 
+def play(video_id):
+    playback_url = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
+    #item = xbmcgui.ListItem(path=playback_url)
+    #xbmcplugin.setResolvedUrl(addon_handle, True, item)
+    item = xbmcgui.ListItem('%s' % playback_url)
+    xbmcplugin.addDirectoryItem(addon_handle, '', item, isFolder=False)
+    xbmcplugin.endOfDirectory(addon_handle)
 
 if mode is None:
     main()
