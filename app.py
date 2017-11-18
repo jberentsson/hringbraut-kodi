@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-from hringbraut import Hringbraut
-#import urlresolver
 import xbmc
 import xbmcgui
 import xbmcplugin
 import json
 import urlparse
 import urllib
+
+from hringbraut import Hringbraut
+
 tv = Hringbraut()
 shows = tv.get_shows()
 
@@ -18,8 +19,6 @@ args = urlparse.parse_qs(sys.argv[2][1:])
 xbmcplugin.setContent(addon_handle, 'episodes')
 
 params = dict(urlparse.parse_qsl(sys.argv[2][1:]))
-action_key = params.get("action_key")
-action_value = params.get("action_value")
 name = params.get("name")
 mode = args.get('mode', None)
 
@@ -39,25 +38,13 @@ def show(url):
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
-        url = build_url({'mode':'play', 'url':e['url'], 'name':'test'}) 
+        url = build_url({'mode':'play', 'url':e['url'], 'name':e['text']}) 
         xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
-def play(video_id, name):
+def play(video_id, video_name):
     url = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
-    xbmc.Player().play(url, xbmcgui.ListItem(name))
-
-def resolve_url(url):
-    duration=7500 #in milliseconds
-    message = "Cannot Play URL"
-    stream_url = urlresolver.HostedMediaFile(url=url).resolve()
-    # If urlresolver returns false then the video url was not resolved.
-    if not stream_url:
-        dialog = xbmcgui.Dialog()
-        dialog.notification("URL Resolver Error", message, xbmcgui.NOTIFICATION_INFO, duration)
-        return False
-    else: 
-        return stream_url
+    xbmc.Player().play(url, xbmcgui.ListItem(video_name))
 
 if mode is None:
     main()

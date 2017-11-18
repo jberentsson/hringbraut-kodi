@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
 from pprint import pprint
+
 try:
     from urllib2 import urlopen
 except:
@@ -82,7 +83,7 @@ class Hringbraut(object):
             for t in thumbs:
                 episodes.append({
                     'text': t.find('h3')\
-                             .get_text(),
+                             .get_text().encode('utf-8'),
                     'url': t.find('a')\
                             .get('href'),
                     'thumb': t.find('img')\
