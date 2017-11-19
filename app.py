@@ -27,9 +27,12 @@ def build_url(query):
 
 def main():
     # List the shows.
-    for i, show in enumerate(shows['shows']):
-        item = xbmcgui.ListItem('%s' % show['text'])
-        url = build_url({'mode':'show', 'url':show['url']}) 
+    for i, s in enumerate(shows['shows']):
+        item = xbmcgui.ListItem('%s' % s['text'])
+        url = build_url({
+            'mode':'show',
+            'url':s['url']
+            })
         xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=True)
     xbmcplugin.endOfDirectory(addon_handle)
 
@@ -38,7 +41,11 @@ def show(url):
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
-        url = build_url({'mode':'play', 'url':e['url'], 'name':"e['text']"}) 
+        url = build_url({
+            'mode':'play',
+            'url':e['url'],
+            'name':"e['text']"
+            })
         xbmcplugin.addDirectoryItem(addon_handle, url, item, isFolder=False)
     xbmcplugin.endOfDirectory(addon_handle)
 
