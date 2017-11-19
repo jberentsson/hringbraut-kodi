@@ -23,10 +23,11 @@ name = params.get("name")
 mode = args.get('mode', None)
 
 def build_url(query):
+    """ Creates the url for kodi. """
     return base_url + '?' + urllib.urlencode(query)
 
 def main():
-    # List the shows.
+    """ List the shows. """
     for i, s in enumerate(shows['shows']):
         item = xbmcgui.ListItem('%s' % s['text'])
         url = build_url({
@@ -37,7 +38,7 @@ def main():
     xbmcplugin.endOfDirectory(addon_handle)
 
 def show(url):
-    # List the episodes.
+    """ List the episodes. """
     episodes = tv.get_show(url)
     for e in episodes['show']['episodes']:
         item = xbmcgui.ListItem('%s - %s' % (e['date'], e['text']))
@@ -50,6 +51,7 @@ def show(url):
     xbmcplugin.endOfDirectory(addon_handle)
 
 def play(video_id, video_name):
+    """ Play the video with the youtube plugin. """
     url = 'plugin://plugin.video.youtube/play/?video_id=%s' % tv.get_episode(video_id)
     xbmc.Player().play(url, xbmcgui.ListItem(video_name))
 
