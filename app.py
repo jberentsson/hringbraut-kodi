@@ -8,19 +8,18 @@ import urllib
 
 from hringbraut import Hringbraut
 
-tv = Hringbraut()
-shows = tv.get_shows()
 
 base_url = sys.argv[0]
 addon_handle = int(sys.argv[1])
-
 args = urlparse.parse_qs(sys.argv[2][1:])
-
-xbmcplugin.setContent(addon_handle, 'episodes')
-
 params = dict(urlparse.parse_qsl(sys.argv[2][1:]))
 name = params.get("name")
 mode = args.get('mode', None)
+
+xbmcplugin.setContent(addon_handle, 'episodes')
+
+tv = Hringbraut()
+shows = tv.get_shows()
 
 def build_url(query):
     """ Creates the url for kodi. """
