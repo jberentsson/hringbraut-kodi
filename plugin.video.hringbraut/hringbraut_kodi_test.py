@@ -3,8 +3,11 @@ from kodijson import Kodi, PLAYER_VIDEO
 from pprint import pprint
 import json
 import os
+import logging
 
 import hringbraut
+
+logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
 class HringbrautKodi:
     """ Hringbraut Kodi addon testing. """
@@ -14,37 +17,46 @@ class HringbrautKodi:
 
     def get_conf(self):
         """ Get the config.json file. """
-        with open('config.json') as json_data:
-            return json.load(json_data)
+        logging.info('Loading config file.')
+        try:
+            with open('config.json') as json_data:
+                return json.load(json_data)
+        except:
+            logging.warning('Error reading config file!')
 
     def play_video(self, id):
         """ Send the video to kodi. """
         try:
+            logging.info('Playing a video. ID: %s' % id)
             url = 'plugin://plugin.video.youtube/play/?video_id='
             data = {
                 "item":{
                     "file":url + id
                 }
             }
-            print(data)
-            #self.kodi.Player.Open(data)
+            #print(data)
+            self.kodi.Player.Open(data)
+            logging.info('Video sent to kodi.')
         except:
-            msg = "Unable to play video!"
-            print(msg)
+            logging.warning("Unable to play video!")
+            
 
 def print_shows():
     """ Print the id and name of show. """
-    #os.system('clear')
-    shows = tv.get_shows()
+    logging.info('Printing shows...')
+    try:
+        shows = tv.get_shows()
 
-    for i, show in enumerate(shows['shows']):
-        print("%s - %s" % (i, show['text']))
+        for i, show in enumerate(shows['shows']):
+            print("%s - %s" % (i, show['text']))
 
-    return shows['shows']
+        return shows['shows']
+
+    except:
+        logging.warning('Unable to print shows.')
 
 def print_episodes(id, shows):
     """ Print the id and name of the episodes """
-    #os.system('clear')
     t = shows[id]['url']
 
     show = tv.get_show(t)
@@ -70,24 +82,25 @@ def get_id():
     """ Get the user input for the ID. """
     try:
         id = input("Enter the show ID: ")
+        logging.info('Selecting ID: %s ' % id)
         return int(id)
     except:
+        logging.warning('User input not valid!')
         return None
 
 def loop():
-    #try:
-    #os.system('clear')
-    kodi = HringbrautKodi()
-    shows = print_shows()
-    show = print_episodes(get_id(), shows)
-    episode = tv.get_episode(show[get_id()]['url'])
-    pprint(episode)
-    kodi.play_video(episode)
-    loop()
-    #except:
-    #    msg = "Unable to do something!"
-    #    print(msg)
+    try:
+        os.system('clear')
+        kodi = HringbrautKodi()
+        shows = print_shows()
+        show = print_episodes(get_id(), shows)
+        episode = tv.get_episode(show[get_id()]['url'])
+        kodi.play_video(episode)
+        loop()
+    except:
+        logging.warning('The program failed!')
 
 if __name__=="__main__":
+    logging.info('Starting app...')
     tv = hringbraut.Hringbraut()
     loop()

@@ -5,8 +5,11 @@ import xbmcplugin
 import json
 import urlparse
 import urllib
+import logging
 
 from hringbraut import Hringbraut
+
+logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Variables
 base_url = sys.argv[0]
