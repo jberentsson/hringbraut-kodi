@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import logging
 from bs4 import BeautifulSoup
 from pprint import pprint
 
@@ -9,9 +10,12 @@ except:
 
 import re
 
+logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
+
 class Hringbraut(object):
     """ Hringbraut Kodi addon. """
     def __init__(self):
+        logging.info('Class created!')
         self.url = 'http://www.hringbraut.is'
 
     def read_url(self, url):
