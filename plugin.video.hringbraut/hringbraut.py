@@ -8,6 +8,9 @@ except:
     from urllib.request import urlopen
 
 import re
+import logging 
+
+logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Hringbraut(object):
     """ Hringbraut Kodi addon. """
