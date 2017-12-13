@@ -24,6 +24,7 @@ class HringbrautKodi:
 
     def play_video(self, id):
         """ Send the video to kodi. """
+        logging.info('Playing video ID: %s' % id)
         try:
             url = 'plugin://plugin.video.youtube/play/?video_id='
             data = {
@@ -33,8 +34,7 @@ class HringbrautKodi:
             }
             self.kodi.Player.Open(data)
         except:
-            msg = "Unable to play video!"
-            print(msg)
+            logging.warning("Unable to play video!")
 
 def print_shows():
     """ Print the id and name of show. """
@@ -52,26 +52,29 @@ def print_shows():
 def print_episodes(id, shows):
     """ Print the id and name of the episodes """
     logging.info('Printing episodes')
-    t = shows[id]['url']
+    try:
+        t = shows[id]['url']
 
-    show = tv.get_show(t)
+        show = tv.get_show(t)
 
-    pprint(show)
-    
-    print(show['show']['name'])
-    print(show['show']['description'])
+        pprint(show)
+        
+        print(show['show']['name'])
+        print(show['show']['description'])
 
-    episodes = show['show']['episodes']
+        episodes = show['show']['episodes']
 
-    for i, episode in enumerate(episodes):
-        url = episode['url']
-        text = episode['text']
+        for i, episode in enumerate(episodes):
+            url = episode['url']
+            text = episode['text']
 
-        # TODO: refactor this.
-        if url[-1].split("/")[-1].isdigit() == False:
-            print("%s - %s - %s" %(i, text, url))
+            # TODO: refactor this.
+            if url[-1].split("/")[-1].isdigit() == False:
+                print("%s - %s - %s" %(i, text, url))
 
-    return show['show']['episodes']
+        return show['show']['episodes']
+    except:
+        logging.warning('Error printing episodes.')
 
 def get_id():
     """ Get the user input for the ID. """
