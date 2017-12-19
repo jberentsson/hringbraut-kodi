@@ -12,38 +12,33 @@ logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format=
 class HringbrautKodi:
     """ Hringbraut Kodi addon testing. """
     def __init__(self):
+        logging.info('Starting Hringbraut addon.')
         self.conf = self.get_conf()
         self.kodi = Kodi(self.conf['host'], self.conf['user'], self.conf['pass'])
 
     def get_conf(self):
         """ Get the config.json file. """
-        logging.info('Loading config file.')
-        try:
-            with open('config.json') as json_data:
-                return json.load(json_data)
-        except:
-            logging.warning('Error reading config file!')
+        logging.info('Fetching config file.')
+        with open('config.json') as json_data:
+            return json.load(json_data)
 
     def play_video(self, id):
         """ Send the video to kodi. """
+        logging.info('Playing video ID: %s' % id)
         try:
-            logging.info('Playing a video. ID: %s' % id)
             url = 'plugin://plugin.video.youtube/play/?video_id='
             data = {
                 "item":{
                     "file":url + id
                 }
             }
-            #print(data)
             self.kodi.Player.Open(data)
-            logging.info('Video sent to kodi.')
         except:
             logging.warning("Unable to play video!")
-            
 
 def print_shows():
     """ Print the id and name of show. """
-    logging.info('Printing shows...')
+    logging.info('Printing show names.')
     try:
         shows = tv.get_shows()
 
@@ -51,56 +46,56 @@ def print_shows():
             print("%s - %s" % (i, show['text']))
 
         return shows['shows']
-
     except:
-        logging.warning('Unable to print shows.')
+        logging.warning('Failed at printing shows.')
 
 def print_episodes(id, shows):
     """ Print the id and name of the episodes """
-    t = shows[id]['url']
+    logging.info('Printing episodes')
+    try:
+        t = shows[id]['url']
 
-    show = tv.get_show(t)
+        show = tv.get_show(t)
 
-    pprint(show)
-    
-    print(show['show']['name'])
-    print(show['show']['description'])
+        pprint(show)
+        
+        print(show['show']['name'])
+        print(show['show']['description'])
 
-    episodes = show['show']['episodes']
+        episodes = show['show']['episodes']
 
-    for i, episode in enumerate(episodes):
-        url = episode['url']
-        text = episode['text']
+        for i, episode in enumerate(episodes):
+            url = episode['url']
+            text = episode['text']
 
-        # TODO: refactor this.
-        if url[-1].split("/")[-1].isdigit() == False:
-            print("%s - %s - %s" %(i, text, url))
+            # TODO: refactor this.
+            if url[-1].split("/")[-1].isdigit() == False:
+                print("%s - %s - %s" %(i, text, url))
 
-    return show['show']['episodes']
+        return show['show']['episodes']
+    except:
+        logging.warning('Error printing episodes.')
 
 def get_id():
     """ Get the user input for the ID. """
     try:
         id = input("Enter the show ID: ")
-        logging.info('Selecting ID: %s ' % id)
         return int(id)
     except:
-        logging.warning('User input not valid!')
         return None
 
 def loop():
     try:
-        os.system('clear')
         kodi = HringbrautKodi()
         shows = print_shows()
         show = print_episodes(get_id(), shows)
         episode = tv.get_episode(show[get_id()]['url'])
+        pprint(episode)
         kodi.play_video(episode)
         loop()
     except:
-        logging.warning('The program failed!')
+        logging.warning('Main loop failed.')
 
 if __name__=="__main__":
-    logging.info('Starting app...')
     tv = hringbraut.Hringbraut()
     loop()
