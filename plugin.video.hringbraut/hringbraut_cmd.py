@@ -25,6 +25,7 @@ class HringbrautKodi:
                 return json.load(json_data)
         except:
             logging.warning('Unable to load config!')
+
     def play_video(self, id):
         """ Send the video to kodi. """
         logging.info('Playing video ID: %s' % id)
@@ -57,11 +58,9 @@ def print_episodes(id, shows):
     logging.info('Printing episodes')
     try:
         t = shows[id]['url']
-
         show = tv.get_show(t)
 
         pprint(show)
-        
         print(show['show']['name'])
         print(show['show']['description'])
 
