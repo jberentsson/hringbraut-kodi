@@ -5,7 +5,7 @@ import json
 import os
 import logging
 
-import hringbraut
+from resources.lib import hringbraut
 
 logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -36,7 +36,8 @@ class HringbrautKodi:
                     "file":url + id
                 }
             }
-            self.kodi.Player.Open(data)
+            #self.kodi.Player.Open(data)
+            logging.info('Play video. Data: %s' % data)
         except:
             logging.warning("Unable to play video!")
 
