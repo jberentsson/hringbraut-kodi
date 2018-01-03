@@ -19,9 +19,12 @@ class HringbrautKodi:
     def get_conf(self):
         """ Get the config.json file. """
         logging.info('Fetching config file.')
-        with open('config.json') as json_data:
-            return json.load(json_data)
-
+        try:
+            logging.info('Config loaded.')
+            with open('config.json') as json_data:
+                return json.load(json_data)
+        except:
+            logging.warning('Unable to load config!')
     def play_video(self, id):
         """ Send the video to kodi. """
         logging.info('Playing video ID: %s' % id)
