@@ -2,7 +2,11 @@
 <addon id="plugin.video.hringbraut" name="Hringbraut" version="0.0.1" provider-name="Jóhann Berentsson">
     <requires>
         <import addon="xbmc.python" version="3.4.2"/>
+<<<<<<< HEAD
         <import addon="script.module.beautifulsoup4" version="4.6.0"/>        
+=======
+        <import addon="script.module.beautifulsoup4" version="4.6.0"/>
+>>>>>>> ff8778adccd44378955a20534a6ba2ae592fcae6
         <import addon="script.module.routing" version="0.2.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="main.py">

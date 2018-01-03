@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-# -*- coding: utf-8 -*-
-
-from resources.lib import kodilogging
-from resources.lib import plugin
-
-import logging
-import xbmcaddon
-
-# Keep this file to a minimum, as Kodi
-# doesn't keep a compiled copy of this
-ADDON = xbmcaddon.Addon()
-kodilogging.config()
-
-plugin.run()
-
-
-=======
 #!/usr/bin/env python3
 import xbmc
 import xbmcgui
@@ -23,13 +5,10 @@ import xbmcplugin
 import json
 import urlparse
 import urllib
-import logging
 
 from hringbraut import Hringbraut
 
-logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Variables
 base_url = sys.argv[0]
 addon_handle = int(sys.argv[1])
 args = urlparse.parse_qs(sys.argv[2][1:])
@@ -86,4 +65,3 @@ elif mode[0] == 'play':
     url=args['url'][0]
     name=args['name'][0]
     play(url, name)
->>>>>>> ff8778adccd44378955a20534a6ba2ae592fcae6

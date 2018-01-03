@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.pyc
 *.pyo
 .DS*
@@ -9,3 +10,9 @@
 Thumbs.db
 *~
 .cache
+=======
+*.swp
+__pycache__
+config.json
+*.log
+>>>>>>> ff8778adccd44378955a20534a6ba2ae592fcae6

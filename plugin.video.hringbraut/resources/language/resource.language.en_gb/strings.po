@@ -1,6 +1,11 @@
 # Kodi Media Center language file
+<<<<<<< HEAD
 # Addon Name: Hringbraut
 # Addon id: plugin.video.hringbraut
+=======
+# Addon Name: N4 TV
+# Addon id: plugin.video.n4tv
+>>>>>>> ff8778adccd44378955a20534a6ba2ae592fcae6
 # Addon Provider: Jóhann Berentsson
 msgid ""
 msgstr ""
