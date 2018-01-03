@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Welcome to your addon
 
 1. You might want to move this folder into the kodi addon folder for convinience when debugging. It might also be needed to be `enabled` inside of the kodi addon browser.
@@ -12,6 +11,3 @@
 
 ### Debugging
 To get the debug logging to work, just set the global kodi logging to true and the debug logging in your addons settings.
-=======
-# Hringbraut for Kodi
->>>>>>> ff8778adccd44378955a20534a6ba2ae592fcae6
