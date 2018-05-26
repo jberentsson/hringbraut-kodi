@@ -7,7 +7,7 @@ import logging
 
 from resources.lib import hringbraut
 
-logging.basicConfig(filename='/tmp/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='/var/log/hringbraut.log',level=logging.DEBUG,  format='%(asctime)s - %(levelname)s - %(message)s')
 
 class HringbrautKodi:
     """ Hringbraut Kodi addon testing. """
@@ -23,7 +23,7 @@ class HringbrautKodi:
             logging.info('Config loaded.')
             with open('config.json') as json_data:
                 return json.load(json_data)
-        except:
+        except Exception as e:
             logging.warning('Unable to load config!')
 
     def play_video(self, id):
@@ -38,7 +38,7 @@ class HringbrautKodi:
             }
             #self.kodi.Player.Open(data)
             logging.info('Play video. Data: %s' % data)
-        except:
+        except Exception as e:
             logging.warning("Unable to play video!")
 
 def print_shows():
@@ -51,7 +51,7 @@ def print_shows():
             print("%s - %s" % (i, show['text']))
 
         return shows['shows']
-    except:
+    except Exception as e:
         logging.warning('Failed at printing shows.')
 
 def print_episodes(id, shows):
@@ -76,7 +76,7 @@ def print_episodes(id, shows):
                 print("%s - %s - %s" %(i, text, url))
 
         return show['show']['episodes']
-    except:
+    except Exception as e:
         logging.warning('Error printing episodes.')
 
 def get_id():
@@ -84,7 +84,7 @@ def get_id():
     try:
         id = input("Enter the show ID: ")
         return int(id)
-    except:
+    except Exception as e:
         return None
 
 def loop():
@@ -96,7 +96,7 @@ def loop():
         pprint(episode)
         kodi.play_video(episode)
         loop()
-    except:
+    except Exception as e:
         logging.warning('Main loop failed.')
 
 if __name__=="__main__":
